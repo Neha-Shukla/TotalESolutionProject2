@@ -13,8 +13,9 @@ function BigCards() {
                 <h2 class="mb-0">$32123</h2>
               </div>
             </div>
-            <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
-              <i class="icon-lg mdi mdi-codepen text-primary ml-auto"></i>
+            <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right imgCont">
+              {/* <i class="icon-lg mdi mdi-codepen text-primary ml-auto"></i> */}
+              <img src='assets/images/growth.png' />
             </div>
           </div>
         </div>
@@ -30,8 +31,9 @@ function BigCards() {
                 <h2 class="mb-0">$45850</h2>
               </div>
             </div>
-            <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
-              <i class="icon-lg mdi mdi-wallet-travel text-danger ml-auto"></i>
+            <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right imgCont">
+              {/* <i class="icon-lg mdi mdi-wallet-travel text-danger ml-auto"></i> */}
+              <img src='assets/images/income.png' />
             </div>
           </div>
         </div>
@@ -47,8 +49,9 @@ function BigCards() {
                 <h2 class="mb-0">$2039</h2>
               </div>
             </div>
-            <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
-              <i class="icon-lg mdi mdi-monitor text-success ml-auto"></i>
+            <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right imgCont">
+              {/* <i class="icon-lg mdi mdi-monitor text-success ml-auto"></i> */}
+              <img src='assets/images/referral.png' />
             </div>
           </div>
         </div>

@@ -1,8 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
+import Modal from './Modal/Modal'
 
 function Header() {
+  const [showModal, setShowModal] = useState(false);
+
+
   return (
     <nav class="navbar p-0 fixed-top d-flex flex-row">
+      {showModal && <Modal/>}
     <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
       <a class="navbar-brand brand-logo-mini" href="index.html"><img src="assets/images/logo-mini.svg" alt="logo" /></a>
     </div>
@@ -13,15 +18,15 @@ function Header() {
       
       <ul class="navbar-nav navbar-nav-right">
         <li class="nav-item dropdown d-none d-lg-block">
-          <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown" data-toggle="dropdown" aria-expanded="false" href="#">Connect Wallet</a>
+          <button class="nav-link btn btn-success create-new-button" onClick={() => setShowModal(true)}>Connect Wallet</button>
         </li>
-       
       </ul>
       <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
         <span class="mdi mdi-format-line-spacing"></span>
       </button>
     </div>
   </nav>
+   
   )
 }
 

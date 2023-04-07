@@ -4,32 +4,47 @@ import Sidebar from "../components/Sidebar";
 import BigCards from "../components/BigCards";
 import Table from "../components/Table";
 import Footer from "../components/Footer";
-import { MdOutlineContentCopy} from 'react-icons/md'
+import { MdOutlineContentCopy } from "react-icons/md";
 
 function Dashboard() {
   return (
     <div className="container-scroller">
       <Sidebar />
-      <div class="container-fluid page-body-wrapper">
+      <div className="container-fluid page-body-wrapper">
         <Header />
-        <div class="main-panel">
-          <div class="content-wrapper">
+        <div className="main-panel">
+          <div className="content-wrapper">
             <BigCards />
-            <div class="row ">
-              <div class="col-12 grid-margin">
-                <div class="card">
-                  <div class="card-body d-flex justify-content-center align-items-baseline">
-                    <h4 class="card-title">Referral Link</h4>
-                    <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search ">
+            <div className="row ">
+              <div className="col-12 grid-margin">
+                <div className="card">
+                  <div className="card-body d-flex justify-content-between align-items-baseline">
+                    <h4 className="card-title">Referral Link</h4>
+                    <form
+                      className="nav-link mt-2 mt-md-0 d-none d-lg-flex search"
+                      style={{ flex: 1 }}
+                    >
                       <input
                         type="text"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Referral Link"
                       />
                     </form>
                     <MdOutlineContentCopy />
                   </div>
                 </div>
+              </div>
+            </div>
+            <div className="row btnn-group">
+              <div className=" col-sm-12 col-md-6 col-xs-12 col-lg-3">
+                <button className="nav-link btn btn-success create-new-button approve-btn">
+                  Approve
+                </button>
+              </div>
+              <div className=" col-sm-12 col-md-6 col-xs-12 col-lg-3">
+                <button className="nav-link btn btn-success create-new-button buy-btn">
+                  Buy
+                </button>
               </div>
             </div>
             <Table />
