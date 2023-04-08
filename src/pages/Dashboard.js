@@ -18,10 +18,10 @@ function Dashboard() {
             <div className="row ">
               <div className="col-12 grid-margin">
                 <div className="card">
-                  <div className="card-body d-flex justify-content-between align-items-baseline">
+                  <div className="card-body d-flex justify-content-between align-items-baseline flex-wrap">
                     <h4 className="card-title">Referral Link</h4>
                     <form
-                      className="nav-link mt-2 mt-md-0 d-none d-lg-flex search"
+                      className="nav-link mt-2 mt-md-0 d-lg-flex search"
                       style={{ flex: 1 }}
                     >
                       <input
