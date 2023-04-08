@@ -32,6 +32,7 @@ function Dashboard() {
                     </form>
                     <MdOutlineContentCopy />
                   </div>
+                  
                 </div>
               </div>
             </div>
@@ -45,6 +46,9 @@ function Dashboard() {
                 <button className="nav-link btn btn-success create-new-button buy-btn">
                   Buy
                 </button>
+              </div>
+              <div className="col-12 text-center">
+              <p className="text-muted">User can Buy Ony Once</p>
               </div>
             </div>
             <Table />

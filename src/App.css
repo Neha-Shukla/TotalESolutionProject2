@@ -15,17 +15,77 @@
 
 .btnn-group {
   justify-content: center !important;
-  margin: 30px 10px;
+  margin: 10px;
 }
 
-
-.imgCont{
+.imgCont {
   height: 80px;
   width: 80px;
 }
 
-.imgCont img{
+.imgCont img {
   height: 100%;
   width: 100%;
   object-fit: contain;
+}
+
+.bal-icon {
+  height: 30px;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  margin: 0 18px;
+}
+
+.bal-icon img{
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  margin: 6px;
+}
+
+.account{
+  background: #0000006b;
+  padding: 10px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  border: 1px solid #0000006b;
+  transition: all 0.3s ease;
+}
+
+.account:hover{
+  border: 1px solid #007bff;
+}
+
+.form-control:focus{
+  color: #959a9f !important;
+}
+
+.text-muted{
+  font-size: 18px;
+  font-weight: 500;
+}
+
+
+.link-icon{
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
+}
+
+.link-icon img{
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
+.table thead{
+  border-top: 0;
+  border-bottom-width: 1px;
+  font-weight: 500;
+  color: #6c7293;
+}
+
+tr{
+  margin: 5px 0;
 }

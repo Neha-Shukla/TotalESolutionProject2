@@ -65,21 +65,6 @@ const useStyles = createUseStyles({
     borderRadius: "10px",
   },
 
-  // metamask: {
-  //     background: "linear-gradient(45deg, #905a36, transparent)",
-  //     border: "1px solid #f18c3c",
-  //     '&:hover': {
-  //         border: "2px solid #f18c3c"
-  //     }
-  // },
-  // walletConnect: {
-  //     background: "linear-gradient(45deg, #0081f469, transparent)",
-  //     border: "1px solid #0078f6",
-  //     '&:hover': {
-  //         border: "2px solid #0078f6"
-  //     }
-  // },
-
   walletIcon: {
     height: "100%",
     width: "100%",
