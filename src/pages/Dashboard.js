@@ -1,12 +1,24 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import BigCards from "../components/BigCards";
 import Table from "../components/Table";
 import Footer from "../components/Footer";
 import { MdOutlineContentCopy } from "react-icons/md";
+import Cookies from "js-cookie";
+import { toast } from "react-hot-toast";
+
 
 function Dashboard() {
+  const [referralLink, setReferralLink] = useState(`${window.location.origin}/`)
+  useEffect(() => {
+    if(Cookies.get('account'))
+    setReferralLink(`${window.location.origin}/${Cookies.get('account')}`)
+  },[Cookies.get('account')])
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(referralLink);
+    toast.success("Copied Successfully!")
+  }
   return (
     <div className="container-scroller">
       <Sidebar />
@@ -28,9 +40,12 @@ function Dashboard() {
                         type="text"
                         className="form-control"
                         placeholder="Referral Link"
+                        value={referralLink}
                       />
                     </form>
-                    <MdOutlineContentCopy />
+                    <MdOutlineContentCopy onClick={copyToClipboard} style={{
+                      cursor:'pointer'
+                    }}/>
                   </div>
                   
                 </div>
