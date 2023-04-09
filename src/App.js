@@ -9,9 +9,10 @@ function App() {
     <Router>
       <Routes>
         <Route exact path="/" element={<Dashboard />}></Route>
+        <Route exact path="/:walletAddress" element={<Dashboard />}></Route>
       </Routes>
       <Toaster
-        position="top-center"
+        position="bottom-right"
         reverseOrder={false}
         gutter={8}
         containerClassName=""
