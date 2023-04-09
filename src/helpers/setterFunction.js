@@ -1,11 +1,11 @@
 import { ethers } from "ethers";
-import { TokenBEP20, tokenSale } from "../config/contracts";
+import { TokenBEP20, tokenSale,PaymentToken } from "../config/contracts";
 import tokenSaleABI from "../config/tokenSale.json"
-import tokenBep20Abi from "../config/tokenBEP.json"
+import paymentTokenABI from "../config/paymentToken.json"
 
 import toast from "react-hot-toast";
 import BigNumber from "bignumber.js"
-import { getCurrentProvider } from "../connectWallet";
+import { getCurrentProvider } from "../config/index";
 
 const targetNetworkId = '0x61';
 export const exportInstance = async (SCAddress, ABI) => {
@@ -37,11 +37,43 @@ export const userIncome = async (address) => {
   let data = await contract.users(address);
   console.log("userIncome data is", data)
   let isWithdrawEnabled = await contract.isWithdrawEnabled()
-  let token = await exportInstance(TokenBEP20, tokenBep20Abi)
+  let token = await exportInstance(TokenBEP20, paymentTokenABI)
   let tokenBal = await token.balanceOf(address)
 
   return { data: data, tokenBalance: tokenBal, isWithdrawEnabled: isWithdrawEnabled }
 };
+
+export const checkAllowance=async(address)=>{
+  let network = checkNetwork();
+  if (network == false) {
+    await switchNetwork();
+  }
+  let contract=await exportInstance(PaymentToken,paymentTokenABI)
+  let allowance=await contract.allowance(address,tokenSale);
+
+
+  console.log("payment token contract is---->",contract);
+  let all=parseFloat(allowance.toString());
+  return all;
+}
+
+export const approve=async()=>{
+  let network = checkNetwork();
+  if (network == false) {
+    await switchNetwork();
+  }
+  let contract=await exportInstance(PaymentToken,paymentTokenABI)
+  console.log("spender is---->",tokenSale)
+  ethers.utils.parseUnits('1000000', 'ether');
+
+  let amount=ethers.utils.parseUnits('1000000000', 'ether');
+  // console.log("ammount is---->",amount)
+
+  let approve=await contract.approve(tokenSale,amount);
+  console.log("approvale of payment token is---->",await approve.wait());
+
+  console.log("payment token contract is---->",contract);
+}
 
 
 export const handleBuyToken = async (account, ref) => {
@@ -117,6 +149,8 @@ export const withdrawLevelIncome = async (account) => {
     return false
   }
 }
+
+
 
 
 export const checkNetwork = async () => {

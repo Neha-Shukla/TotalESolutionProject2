@@ -1,12 +1,70 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import BigCards from "../components/BigCards";
 import Table from "../components/Table";
+import Cookies from 'js-cookie';
+import { useParams } from 'react-router-dom';
 import Footer from "../components/Footer";
+import { checkNetwork,switchNetwork,userIncome,tokenSaleContract,checkAllowance,approve } from '../helpers/setterFunction';
 import { MdOutlineContentCopy } from "react-icons/md";
 
 function Dashboard() {
+
+  const [account, setAccount] = useState();
+  const [income, setIncome] = useState({})
+  const [loading, setLoading] = useState(false)
+  const [reload, setReload] = useState(false)
+  const [isApprove,setIsApprove]=useState(false)
+  const [functionCallLoad, setFunctionCallLoad] = useState(true)
+  const { refAddress } = useParams()
+  console.log("refAddress", refAddress)
+
+
+
+  useEffect(() => {
+    async function getContract() {
+      setLoading(true)
+      try {
+        let acc = Cookies.get("account")
+        console.log("account is---->",acc);
+        
+        if (acc) {
+          setAccount(acc);
+          // let network = await checkNetwork();
+          // console.log("network chain is", network);
+          // if (network === false) {
+          //   alert("Please switch newtork to BNB");
+          //   await switchNetwork();
+
+          //   // return;
+          // }
+          let allowance=await checkAllowance(acc);
+          console.log("allowance",allowance)
+          if(allowance!=0){
+          
+          setIsApprove(true);
+          }
+          let _income = await userIncome(acc);
+          console.log("user income is", _income);
+          setIncome(_income)
+        }
+        await tokenSaleContract();
+        setLoading(false)
+      }
+      catch (err) {
+        console.log("err", err)
+        setLoading(false)
+      }
+
+    }
+    getContract();
+  }, [reload, Cookies.get("account")])
+
+  const handleBuyToken=async()=>{
+
+  }
+
   return (
     <div className="container-scroller">
       <Sidebar />
@@ -38,9 +96,12 @@ function Dashboard() {
             </div>
             <div className="row btnn-group">
               <div className=" col-sm-12 col-md-6 col-xs-12 col-lg-3">
-                <button className="nav-link btn btn-success create-new-button approve-btn">
+             <button disabled={isApprove} className="nav-link btn btn-success create-new-button approve-btn" onClick={async()=>{
+                     await approve();
+              }}>
                   Approve
                 </button>
+               
               </div>
               <div className=" col-sm-12 col-md-6 col-xs-12 col-lg-3">
                 <button className="nav-link btn btn-success create-new-button buy-btn">
