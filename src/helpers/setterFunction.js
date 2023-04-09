@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import BigNumber from "bignumber.js"
 import { getCurrentProvider } from "../config/index";
 
+
 const targetNetworkId = '0x61';
 export const exportInstance = async (SCAddress, ABI) => {
   let pro = await getCurrentProvider()
@@ -82,24 +83,36 @@ export const handleBuyToken = async (account, ref) => {
     await switchNetwork();
   }
   try {
+
+    let paymentContract=await exportInstance(PaymentToken,paymentTokenABI)
+  let balance=await paymentContract.balanceOf(account);
+  
+  const balanceEther = balance.div(ethers.BigNumber.from(10).pow(18)).toNumber();
+console.log("balance is---->",balanceEther); // Output: 1
+if(balance<20){
+  toast.error("Balance is less than 20$");
+  return;
+}
+
+
     let contract = await tokenSaleContract();
     console.log("contract is---->", contract);
-    let amount = (await contract.getAmountToBePaid()).toString()
+    // let amount = (await contract.getAmountToBePaid()).toString()
     let es
     try {
       es = await contract.estimateGas.buyToken(
-        ref, { from: account, value: amount }
+        ref, { from: account, value:0 }
       )
 
     }
     catch (err) {
-      console.log("errrr", err)
-      toast.error("Error while buying.." + err.data?.message)
-      console.log("error", err.code)
+      console.log("errrr is---->", err.reason)
+      toast.error("Error while buying.." + err.reason)
+      console.log("error", err.reason)
       return false
     }
     let priceLimit = new BigNumber(es.toString()).plus(new BigNumber(es.toString()).multipliedBy(0.1))
-    let data = await contract.buyToken(ref, { from: account, value: amount, gasLimit: Math.ceil(parseFloat(priceLimit.toString())) });
+    let data = await contract.buyToken(ref, { from: account, value: 0, gasLimit: Math.ceil(parseFloat(priceLimit.toString())) });
     console.log("userIncome data is", data)
     data = await data.wait()
     if (data.status)
@@ -109,7 +122,9 @@ export const handleBuyToken = async (account, ref) => {
     return data;
   }
   catch (err) {
+    console.log("error reasone is----->")
     toast.error("Error while buying.." + err.message)
+    // console.log("error reasone is",err.reason)
     console.log("error", err.code)
     return false
   }

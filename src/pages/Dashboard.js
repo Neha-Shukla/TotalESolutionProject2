@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import BigCards from "../components/BigCards";
@@ -6,8 +6,13 @@ import Table from "../components/Table";
 import Cookies from 'js-cookie';
 import { useParams } from 'react-router-dom';
 import Footer from "../components/Footer";
-import { checkNetwork,switchNetwork,userIncome,tokenSaleContract,checkAllowance,approve } from '../helpers/setterFunction';
+import { checkNetwork,switchNetwork,userIncome,tokenSaleContract,checkAllowance,approve,handleBuyToken } from '../helpers/setterFunction';
 import { MdOutlineContentCopy } from "react-icons/md";
+import { ethers } from "ethers";
+import { toast } from "react-hot-toast";
+import { DEFAULT_REF } from '../helpers/constants';
+
+
 
 function Dashboard() {
 
@@ -18,6 +23,8 @@ function Dashboard() {
   const [isApprove,setIsApprove]=useState(false)
   const [functionCallLoad, setFunctionCallLoad] = useState(true)
   const { refAddress } = useParams()
+  const [referralLink, setReferralLink] = useState(`${window.location.origin}/`);
+  const { walletAddress } = useParams();
   console.log("refAddress", refAddress)
 
 
@@ -61,10 +68,18 @@ function Dashboard() {
     getContract();
   }, [reload, Cookies.get("account")])
 
-  const handleBuyToken=async()=>{
+  
 
+ 
+  console.log("wallet Address", walletAddress)
+  useEffect(() => {
+    if(Cookies.get('account'))
+    setReferralLink(`${window.location.origin}/${Cookies.get('account')}`)
+  },[Cookies.get('account')])
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(referralLink);
+    toast.success("Copied Successfully!")
   }
-
   return (
     <div className="container-scroller">
       <Sidebar />
@@ -84,17 +99,31 @@ function Dashboard() {
                     >
                       <input
                         type="text"
-                        className="form-control"
+                        className="form-control referralLink"
                         placeholder="Referral Link"
+                        value={referralLink}
+                        disabled
                       />
                     </form>
-                    <MdOutlineContentCopy />
+                    <MdOutlineContentCopy onClick={copyToClipboard} style={{
+                      cursor:'pointer'
+                    }}/>
                   </div>
                   
                 </div>
               </div>
             </div>
+            <div className="row referrerAdd">
+                      <label className="referrerLabel">Referrer Address </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Referrer Address"
+                        value={walletAddress}
+                      />
+              </div>
             <div className="row btnn-group">
+              
               <div className=" col-sm-12 col-md-6 col-xs-12 col-lg-3">
              <button disabled={isApprove} className="nav-link btn btn-success create-new-button approve-btn" onClick={async()=>{
                      await approve();
@@ -104,9 +133,10 @@ function Dashboard() {
                
               </div>
               <div className=" col-sm-12 col-md-6 col-xs-12 col-lg-3">
-                <button className="nav-link btn btn-success create-new-button buy-btn">
-                  Buy
-                </button>
+              <button className="btn btn-outline-light btn-rounded get-started-btn buytoken-btn" disabled={income?.data?.tokensReceived} onClick={() => {
+                handleBuyToken(account, ethers.utils.isAddress(refAddress) ? refAddress : DEFAULT_REF)
+                setReload(!reload)
+              }}>{income?.data?.tokensReceived ? "Already Purchased!!" : "Buy Token (1000)"}</button>
               </div>
               <div className="col-12 text-center">
               <p className="text-muted">User can Buy Ony Once</p>
