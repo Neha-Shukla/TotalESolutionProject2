@@ -109,7 +109,7 @@ if(balance<20){
 
 
     let contract = await tokenSaleContract();
-    console.log("contract is---->", contract);
+    // console.log("contract is---->", contract);
     // let amount = (await contract.getAmountToBePaid()).toString()
     let es
     try {

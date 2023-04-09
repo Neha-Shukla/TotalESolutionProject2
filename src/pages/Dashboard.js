@@ -71,7 +71,7 @@ function Dashboard() {
   
 
  
-  console.log("wallet Address", walletAddress)
+  // console.log("wallet Address", walletAddress)
   useEffect(() => {
     if(Cookies.get('account'))
     setReferralLink(`${window.location.origin}/${Cookies.get('account')}`)
