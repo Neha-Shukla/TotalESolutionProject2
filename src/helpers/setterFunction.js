@@ -6,6 +6,7 @@ import paymentTokenABI from "../config/paymentToken.json"
 import toast from "react-hot-toast";
 import BigNumber from "bignumber.js"
 import { getCurrentProvider } from "../config/index";
+import Loader from "../components/Loader";
 
 
 const targetNetworkId = '0x61';
@@ -59,21 +60,32 @@ export const checkAllowance=async(address)=>{
 }
 
 export const approve=async()=>{
-  let network = checkNetwork();
-  if (network == false) {
-    await switchNetwork();
+  // let network = checkNetwork();
+  // if (network == false) {
+  //   await switchNetwork();
+  // }
+  try{
+    console.log("payment token is",PaymentToken)
+    let paymentContract=await exportInstance(PaymentToken,paymentTokenABI);
+    console.log("payment token contract is---->",paymentContract);
+    console.log("spender is---->",tokenSale)
+    // ethers.utils.parseUnits('1000000', 'ether');
+  
+    let amount=ethers.utils.parseUnits('100000', 'ether');
+    console.log("ammount is---->",amount)
+    console.log("tokensale address is--->",tokenSale);
+  
+    let approveRes=await paymentContract.approve(tokenSale,amount);
+    console.log("approvale of payment token is---->",await approveRes.wait());
+  
+    
+    return approveRes;
+  }catch(e){
+    console.log("error is",e)
+    toast.error("Approval Fails");
+    return;
   }
-  let contract=await exportInstance(PaymentToken,paymentTokenABI)
-  console.log("spender is---->",tokenSale)
-  ethers.utils.parseUnits('1000000', 'ether');
-
-  let amount=ethers.utils.parseUnits('1000000000', 'ether');
-  // console.log("ammount is---->",amount)
-
-  let approve=await contract.approve(tokenSale,amount);
-  console.log("approvale of payment token is---->",await approve.wait());
-
-  console.log("payment token contract is---->",contract);
+  
 }
 
 
@@ -116,8 +128,9 @@ if(balance<20){
     let data = await contract.buyToken(ref, { from: account, value: 0, gasLimit: Math.ceil(parseFloat(priceLimit.toString())) });
     console.log("userIncome data is", data)
     data = await data.wait()
-    if (data.status)
-      toast.success("Successfully purchased")
+    if (data.status){
+      toast.success("Successfully purchased");
+      window.location.reload();}
     else
       toast.error("Error while buying..")
     return data;

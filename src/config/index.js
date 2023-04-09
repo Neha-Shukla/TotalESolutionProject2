@@ -71,7 +71,7 @@ export const getCurrentProvider = async () => {
   let _provider;
   if (wallet === "walletConnect") {
     _provider = new WalletConnectProvider({
-      rpc: supportedRpcs,
+      rpc: "https://polygon-mumbai.g.alchemy.com/v2/8RAii8kDi0Fwe47iF1_WLjpcSfp3q3R6",
     });
     //  Wrap with Web3Provider from ethers.js
     const web3Provider = new providers.Web3Provider(_provider);

@@ -11,7 +11,7 @@ import { MdOutlineContentCopy } from "react-icons/md";
 import { ethers } from "ethers";
 import { toast } from "react-hot-toast";
 import { DEFAULT_REF } from '../helpers/constants';
-
+import Loader from "../components/Loader";
 
 
 function Dashboard() {
@@ -82,12 +82,17 @@ function Dashboard() {
   }
   return (
     <div className="container-scroller">
+    {loading?<Loader />:""}
+      
       <Sidebar />
       <div className="container-fluid page-body-wrapper">
         <Header />
         <div className="main-panel">
           <div className="content-wrapper">
-            <BigCards />
+            <BigCards referralIncome={income?.data?.referralIncome ? ethers.utils.formatEther(income?.data?.referralIncome?.toString()).toString() : 0}
+                      levelIncome={income?.data?.levelIncome ? ethers.utils.formatEther(income?.data?.levelIncome?.toString()).toString() : 0}
+                      referrer={income?.data?.referrer}
+            />
             <div className="row ">
               <div className="col-12 grid-margin">
                 <div className="card">
@@ -126,16 +131,21 @@ function Dashboard() {
               
               <div className=" col-sm-12 col-md-6 col-xs-12 col-lg-3">
              <button disabled={isApprove} className="nav-link btn btn-success create-new-button approve-btn" onClick={async()=>{
-                     await approve();
+                     setLoading(true)
+                     let res=await approve();
+                     setLoading(false);
+                     window.location.reload();
               }}>
                   Approve
                 </button>
                
               </div>
               <div className=" col-sm-12 col-md-6 col-xs-12 col-lg-3">
-              <button className="btn btn-outline-light btn-rounded get-started-btn buytoken-btn" disabled={income?.data?.tokensReceived} onClick={() => {
-                handleBuyToken(account, ethers.utils.isAddress(walletAddress) ? walletAddress : DEFAULT_REF)
-                setReload(!reload)
+              <button className="btn btn-outline-light btn-rounded get-started-btn buytoken-btn" disabled={income?.data?.tokensReceived} onClick={async() => {
+                setLoading(true)
+                await handleBuyToken(account, ethers.utils.isAddress(walletAddress) ? walletAddress : DEFAULT_REF)
+                setLoading(false);
+                // window.location.reload();
               }}>{income?.data?.tokensReceived ? "Already Purchased!!" : "Buy Token (1000)"}</button>
               </div>
               <div className="col-12 text-center">
