@@ -7,10 +7,13 @@ import Footer from "../components/Footer";
 import { MdOutlineContentCopy } from "react-icons/md";
 import Cookies from "js-cookie";
 import { toast } from "react-hot-toast";
+import { useParams } from "react-router-dom";
 
 
 function Dashboard() {
-  const [referralLink, setReferralLink] = useState(`${window.location.origin}/`)
+  const [referralLink, setReferralLink] = useState(`${window.location.origin}/`);
+  const { walletAddress } = useParams();
+  console.log("wallet Address", walletAddress)
   useEffect(() => {
     if(Cookies.get('account'))
     setReferralLink(`${window.location.origin}/${Cookies.get('account')}`)
@@ -52,7 +55,17 @@ function Dashboard() {
                 </div>
               </div>
             </div>
+            <div className="row referrerAdd">
+                      <label className="referrerLabel">Referrer Address </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Referrer Address"
+                        value={walletAddress}
+                      />
+              </div>
             <div className="row btnn-group">
+              
               <div className=" col-sm-12 col-md-6 col-xs-12 col-lg-3">
                 <button className="nav-link btn btn-success create-new-button approve-btn">
                   Approve

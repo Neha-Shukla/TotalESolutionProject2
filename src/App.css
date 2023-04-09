@@ -92,3 +92,19 @@ tr {
 .referralLink:disabled {
   background-color: #313539 !important;
 }
+
+.referrerLabel {
+  text-align: center;
+  align-self: end;
+  margin-right: 12px;
+}
+
+.referrerAdd{
+  margin: 0 12px;
+  justify-content: center;
+}
+
+.referrerAdd input{
+  width: 0;
+  min-width: 330px !important;
+}
