@@ -99,12 +99,27 @@ tr {
   margin-right: 12px;
 }
 
-.referrerAdd{
+.referrerAdd {
   margin: 0 12px;
   justify-content: center;
 }
 
-.referrerAdd input{
+.referrerAdd input {
   width: 0;
   min-width: 330px !important;
+}
+
+.loader-container {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 10000;
+}
+
+.loader-container div {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

@@ -5,9 +5,9 @@ function Footer() {
     <footer class="footer">
       <div class="d-sm-flex justify-content-center justify-content-sm-between">
         <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">
-          Copyright © bootstrapdash.com 2020
+          Copyright © Latest Investor Chain 2023
         </span>
-        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">
+        {/* <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">
           {" "}
           Free{" "}
           <a
@@ -17,7 +17,7 @@ function Footer() {
             Bootstrap admin templates
           </a>{" "}
           from Bootstrapdash.com
-        </span>
+        </span> */}
       </div>
     </footer>
   );

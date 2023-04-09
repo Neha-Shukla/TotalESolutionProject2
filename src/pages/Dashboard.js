@@ -8,6 +8,7 @@ import { MdOutlineContentCopy } from "react-icons/md";
 import Cookies from "js-cookie";
 import { toast } from "react-hot-toast";
 import { useParams } from "react-router-dom";
+import Loader from "../components/Loader";
 
 
 function Dashboard() {
@@ -24,6 +25,7 @@ function Dashboard() {
   }
   return (
     <div className="container-scroller">
+      {/* <Loader /> */}
       <Sidebar />
       <div className="container-fluid page-body-wrapper">
         <Header />
