@@ -38,9 +38,10 @@ function Dashboard() {
                     >
                       <input
                         type="text"
-                        className="form-control"
+                        className="form-control referralLink"
                         placeholder="Referral Link"
                         value={referralLink}
+                        disabled
                       />
                     </form>
                     <MdOutlineContentCopy onClick={copyToClipboard} style={{
