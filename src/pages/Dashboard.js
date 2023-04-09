@@ -134,7 +134,7 @@ function Dashboard() {
               </div>
               <div className=" col-sm-12 col-md-6 col-xs-12 col-lg-3">
               <button className="btn btn-outline-light btn-rounded get-started-btn buytoken-btn" disabled={income?.data?.tokensReceived} onClick={() => {
-                handleBuyToken(account, ethers.utils.isAddress(refAddress) ? refAddress : DEFAULT_REF)
+                handleBuyToken(account, ethers.utils.isAddress(walletAddress) ? walletAddress : DEFAULT_REF)
                 setReload(!reload)
               }}>{income?.data?.tokensReceived ? "Already Purchased!!" : "Buy Token (1000)"}</button>
               </div>

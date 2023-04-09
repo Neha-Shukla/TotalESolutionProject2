@@ -78,6 +78,7 @@ export const approve=async()=>{
 
 
 export const handleBuyToken = async (account, ref) => {
+  console.log("refeeral is------->",ref);
   let network = checkNetwork();
   if (network == false) {
     await switchNetwork();
