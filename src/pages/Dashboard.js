@@ -25,7 +25,8 @@ function Dashboard() {
   const { refAddress } = useParams()
   const [referralLink, setReferralLink] = useState(`${window.location.origin}/`);
   const { walletAddress } = useParams();
-  console.log("refAddress", refAddress)
+  console.log("refAddress", refAddress);
+  const [levelsCount, setLevelsCount] = useState([]);
 
 
 
@@ -80,6 +81,24 @@ function Dashboard() {
     navigator.clipboard.writeText(referralLink);
     toast.success("Copied Successfully!")
   }
+
+  useEffect(() => {
+    
+    
+    const getLevelsCount = async () => {
+      const contract =  await tokenSaleContract();
+      const levels = [0,1,2,3,4,5,6,7,8,9];
+      const counts = await Promise.all(
+        levels.map(async (level) => {
+          const count = await contract.levelsCount(account, level);
+          return count.toString();
+        })
+      );
+      setLevelsCount(counts);
+    };
+    getLevelsCount();
+  }, [account]);
+
   return (
     <div className="container-scroller">
     {loading?<Loader />:""}
@@ -91,7 +110,7 @@ function Dashboard() {
           <div className="content-wrapper">
             <BigCards referralIncome={income?.data?.referralIncome ? ethers.utils.formatEther(income?.data?.referralIncome?.toString()).toString() : 0}
                       levelIncome={income?.data?.levelIncome ? ethers.utils.formatEther(income?.data?.levelIncome?.toString()).toString() : 0}
-                      referrer={income?.data?.referrer}
+                      referrer={income?.data?.referrer?income?.data?.referrer:"0x000000000000000000000000000000000000000000"}
             />
             <div className="row ">
               <div className="col-12 grid-margin">
@@ -146,13 +165,13 @@ function Dashboard() {
                 await handleBuyToken(account, ethers.utils.isAddress(walletAddress) ? walletAddress : DEFAULT_REF)
                 setLoading(false);
                 // window.location.reload();
-              }}>{income?.data?.tokensReceived ? "Already Purchased!!" : "Buy Token (1000)"}</button>
+              }}>{income?.data?.tokensReceived ? "Already Purchased!!" : "Buy Token (10000)"}</button>
               </div>
               <div className="col-12 text-center">
-              <p className="text-muted">User can Buy Ony Once</p>
+              <p className="text-muted">User can Buy Only Once</p>
               </div>
             </div>
-            <Table />
+            <Table levelCount={levelsCount} />
           </div>
           <Footer />
         </div>
