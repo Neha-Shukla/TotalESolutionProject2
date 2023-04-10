@@ -137,6 +137,9 @@ function Dashboard() {
                 </div>
               </div>
             </div>
+            <div class="row ">
+    <div class="col-12 grid-margin">
+      <div className="card p-3">
             <div className="row referrerAdd">
                       <label className="referrerLabel">Referrer Address </label>
                       <input
@@ -146,6 +149,7 @@ function Dashboard() {
                         value={walletAddress}
                       />
               </div>
+              
             <div className="row btnn-group">
               
               <div className=" col-sm-12 col-md-6 col-xs-12 col-lg-3">
@@ -159,18 +163,20 @@ function Dashboard() {
                 </button>
                
               </div>
-              <div className=" col-sm-12 col-md-6 col-xs-12 col-lg-3">
-              <button className="btn btn-outline-light btn-rounded get-started-btn buytoken-btn" disabled={income?.data?.tokensReceived} onClick={async() => {
+              <div className=" col-sm-12 col-md-6 col-xs-12 col-lg-3 buy-btn-text">
+              <button className="nav-link btn btn-success create-new-button buy-btn" disabled={income?.data?.tokensReceived} onClick={async() => {
                 setLoading(true)
                 await handleBuyToken(account, ethers.utils.isAddress(walletAddress) ? walletAddress : DEFAULT_REF)
                 setLoading(false);
                 // window.location.reload();
-              }}>{income?.data?.tokensReceived ? "Already Purchased!!" : "Buy Token (10000)"}</button>
+              }}>Buy Now</button>
+              <span>{income?.data?.tokensReceived ? "Already Purchased!!" : "Buy Token (10000)"}</span>
               </div>
               <div className="col-12 text-center">
               <p className="text-muted">User can Buy Only Once</p>
               </div>
             </div>
+            </div></div></div>
             <Table levelCount={levelsCount} />
           </div>
           <Footer />

@@ -10,12 +10,12 @@ function Table(props) {
           <div class="table-responsive">
             <table class="table">
               <thead>
-                <tr className='d-flex justify-content-between'>
+                <tr className=''>
                   <th> Level </th>
                   <th> Count </th>
                 </tr>
               </thead>
-              <tbody className='d-flex justify-content-between'>
+              <tbody className=''>
               {props.levelCount.map((count, index) => (
             <tr key={index}>
               <td>Level {index + 1}</td>
