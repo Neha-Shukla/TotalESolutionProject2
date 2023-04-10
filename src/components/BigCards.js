@@ -9,8 +9,12 @@ function BigCards(props) {
           <h5>Level Income</h5>
           <div class="row">
             <div class="col-8 col-sm-12 col-xl-8 my-auto">
-              <div class="d-flex d-sm-block d-md-flex align-items-center">
+              <div class="d-flex d-sm-block d-md-flex flex-column">
                 <h2 class="mb-0">{props.levelIncome}</h2>
+                <button className='btn btn-success' style={{
+                  "width": "max-content",
+                  "marginTop": "4px"
+                }}>Withdraw</button>
               </div>
             </div>
             <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right imgCont">
@@ -27,8 +31,12 @@ function BigCards(props) {
           <h5>Referral Income</h5>
           <div class="row">
             <div class="col-8 col-sm-12 col-xl-8 my-auto">
-              <div class="d-flex d-sm-block d-md-flex align-items-center">
+              <div class="d-flex d-sm-block d-md-flex flex-column">
                 <h2 class="mb-0">{props.referralIncome}</h2>
+                <button className='btn btn-success' style={{
+                  "width": "max-content",
+                  "marginTop": "4px"
+                }}>Withdraw</button>
               </div>
             </div>
             <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right imgCont">
