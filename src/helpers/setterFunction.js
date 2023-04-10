@@ -101,10 +101,10 @@ export const handleBuyToken = async (account, ref) => {
 
     let paymentContract=await exportInstance(PaymentToken,paymentTokenABI)
   let balance=await paymentContract.balanceOf(account);
-  
+  console.log("balance here is---------->",balance);
   const balanceEther = balance.div(ethers.BigNumber.from(10).pow(18)).toNumber();
 console.log("balance is---->",balanceEther); // Output: 1
-if(balance<20){
+if(balanceEther<20){
   toast.error("Balance is less than 20$");
   return;
 }
@@ -193,8 +193,8 @@ export const withdrawReferralIncome = async (account) => {
       es = await contract.estimateGas.withdrawReferralIncome()
     }
     catch (err) {
-      console.log("errrr", err)
-      toast.error("Error while buying.." + err.code)
+      console.log("errrr", err.reason)
+      toast.error("Error while buying.." + err.reason)
       console.log("error", err.code)
       return false
     }
