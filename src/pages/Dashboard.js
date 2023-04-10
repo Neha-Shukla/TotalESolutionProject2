@@ -39,14 +39,14 @@ function Dashboard() {
         
         if (acc) {
           setAccount(acc);
-          // let network = await checkNetwork();
-          // console.log("network chain is", network);
-          // if (network === false) {
-          //   alert("Please switch newtork to BNB");
-          //   await switchNetwork();
+          let network = await checkNetwork();
+          console.log("network chain is", network);
+          if (network === false) {
+            alert("Please switch newtork to BNB");
+            await switchNetwork();
 
           //   // return;
-          // }
+          }
           let allowance=await checkAllowance(acc);
           console.log("allowance",allowance)
           if(allowance!=0){
