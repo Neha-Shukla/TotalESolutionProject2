@@ -2,18 +2,39 @@ import React, { useEffect, useState } from "react";
 import Modal from "./Modal/Modal";
 import { getCurrentAccount, logout } from "../config";
 import Cookies from "js-cookie";
-
+import { useParams } from "react-router";
+import { toast } from "react-hot-toast";
+import { getPaymentTokenBal } from "../helpers/setterFunction";
+import { async } from "q";
 
 function Header() {
+  const { walletAddress } = useParams();
   const [showModal, setShowModal] = useState(false);
-  const [account, setAccount] = useState(Cookies.get('account'));
-  const [balance, setBalance] = useState(Cookies.get('balance'));
+  const [account, setAccount] = useState(Cookies.get("account"));
+  const [balance, setBalance] = useState(Cookies.get("balance"));
+  const [paymentTokenBal, setPaymentTokenBal] = useState(0)
 
   useEffect(() => {
-    console.log("cookies===>", Cookies.get('balance'),Cookies.get('account'))
-   setAccount(Cookies.get('account'));
-   setBalance(Cookies.get('balance'))
-  }, [Cookies.get('account'),Cookies.get('balance')]);
+    if ( walletAddress !== undefined && 
+      walletAddress?.toLowerCase() === Cookies.get("account")?.toLowerCase()
+    ) {
+      
+      setTimeout(() => {
+        logout();
+        toast.error("Your referral address and connected wallet cannot be the same.");
+      }, 3000);
+      return;
+    }
+   
+    setAccount(Cookies.get("account"));
+    setBalance(Cookies.get("balance"));
+    const fetch = async () => {
+      const ptBal = await getPaymentTokenBal(Cookies.get("account"));
+      setPaymentTokenBal(ptBal)
+    }
+    if(Cookies.get("account"))
+    fetch()
+  }, [Cookies.get("account"), Cookies.get("balance")]);
 
   return (
     <nav class="navbar p-0 fixed-top d-flex flex-row">
@@ -33,7 +54,7 @@ function Header() {
         </button>
 
         <ul class="navbar-nav navbar-nav-right">
-          {!account  ? (
+          {!account ? (
             <li class="nav-item dropdown d-none d-lg-block">
               <button
                 class="nav-link btn btn-success create-new-button"
@@ -46,6 +67,10 @@ function Header() {
             <li className="d-flex justify-content-center align-items-center">
               <div className="account" onClick={() => logout()}>
                 {account?.slice(0, 5) + "..." + account?.slice(38, 42)}
+              </div>
+              <div className="bal-icon">
+                USDT : &nbsp; 
+                <span>{Number(paymentTokenBal)?.toFixed(4)}</span>
               </div>
               <div className="bal-icon">
                 <img src="assets/images/binance.png" />

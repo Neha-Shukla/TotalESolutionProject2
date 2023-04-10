@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import BigNumber from "bignumber.js"
 import { getCurrentProvider } from "../config/index";
 import Loader from "../components/Loader";
+import { async } from "q";
 
 
 const targetNetworkId = '0x61';
@@ -219,3 +220,15 @@ export const handleCopyToClipboard = async copyMe => {
     toast.error('Failed to copy!');
   }
 };
+
+export const getPaymentTokenBal = async (account) => {
+  let network = checkNetwork();
+  if (network == false) {
+    await switchNetwork();
+  }
+  let contract=await exportInstance(PaymentToken,paymentTokenABI)
+  console.log("payment token contract is---->",contract);
+  let bal = await contract.balanceOf(account);
+  
+  return bal.toString() / 10 ** 18
+}

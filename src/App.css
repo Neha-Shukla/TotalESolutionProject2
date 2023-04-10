@@ -89,7 +89,7 @@ tr {
   margin: 5px 0;
 }
 
-.referralLink:disabled {
+.referralLink:disabled,.referralAddress:disabled {
   background-color: #313539 !important;
 }
 
@@ -136,4 +136,8 @@ tr {
   font-size: 16px;
   color: #6c757d;
   font-weight: 600;
+}
+
+input:disabled, button:disabled{
+  cursor: not-allowed;
 }
