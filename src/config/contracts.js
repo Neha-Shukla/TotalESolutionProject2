@@ -1,4 +1,4 @@
-export const tokenSale = "0xf54dC524B4d294b9ff871167E373fedaE92c6132";
+export const tokenSale = "0x863a2384fd6497BB9A2E50F3111A991f53185E6e";
 export const TokenBEP20 = "0xaD153De8e1fc93f5198Be4aeadE06c22799B7B0d";
 export const PaymentToken = "0x5B25852af48FF89B0dA3a1F91cD092C5E7ebeec7";
 

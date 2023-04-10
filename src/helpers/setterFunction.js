@@ -30,6 +30,7 @@ export const tokenSaleContract = async () => {
   return contract
 }
 
+
 export const userIncome = async (address) => {
   let network = checkNetwork();
   if (network == false) {
@@ -179,6 +180,42 @@ export const withdrawLevelIncome = async (account) => {
     return false
   }
 }
+
+export const withdrawReferralIncome = async (account) => {
+  let network = checkNetwork();
+  if (network == false) {
+    await switchNetwork();
+  }
+  try {
+    let es;
+    let contract = await tokenSaleContract();
+    try {
+      es = await contract.estimateGas.withdrawReferralIncome()
+    }
+    catch (err) {
+      console.log("errrr", err)
+      toast.error("Error while buying.." + err.code)
+      console.log("error", err.code)
+      return false
+    }
+    let priceLimit = new BigNumber(es.toString()).plus(new BigNumber(es.toString()).multipliedBy(0.1))
+
+
+    let data = await contract.withdrawReferralIncome({ from: account, gasLimit: Math.ceil(parseFloat(priceLimit.toString())) });
+    data = await data.wait()
+    if (data.status)
+      toast.success("Successfully purchased")
+    else
+      toast.error("Error while buying..")
+    return data
+  }
+  catch (err) {
+    toast.error("Error while buying.." + err.code)
+    console.log("error")
+    return false
+  }
+}
+
 
 
 

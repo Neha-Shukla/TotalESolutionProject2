@@ -108,6 +108,7 @@ function Dashboard() {
         <div className="main-panel">
           <div className="content-wrapper">
             <BigCards
+            account={account}
               referralIncome={
                 income?.data?.referralIncome
                   ? ethers.utils

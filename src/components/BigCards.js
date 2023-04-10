@@ -1,4 +1,5 @@
 import React from "react";
+import { withdrawLevelIncome,withdrawReferralIncome } from "../helpers/setterFunction";
 
 function BigCards(props) {
   return (
@@ -16,6 +17,9 @@ function BigCards(props) {
                     style={{
                       width: "max-content",
                       marginTop: "4px",
+                    }}
+                    onClick={async()=>{
+                      await withdrawLevelIncome(props.account)
                     }}
                   >
                     Withdraw
@@ -43,6 +47,9 @@ function BigCards(props) {
                     style={{
                       width: "max-content",
                       marginTop: "4px",
+                    }}
+                    onClick={async()=>{
+                      await withdrawReferralIncome(props.account)
                     }}
                   >
                     Withdraw
