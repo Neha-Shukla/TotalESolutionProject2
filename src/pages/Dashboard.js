@@ -4,7 +4,7 @@ import Sidebar from "../components/Sidebar";
 import BigCards from "../components/BigCards";
 import Table from "../components/Table";
 import Cookies from "js-cookie";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import Footer from "../components/Footer";
 import {
   checkNetwork,
@@ -32,7 +32,15 @@ function Dashboard() {
   const [referralLink, setReferralLink] = useState(
     `${window.location.origin}/`
   );
-  const { walletAddress } = useParams();
+
+  const { search } = useLocation();
+
+  const parameters = new URLSearchParams(search);
+
+  const walletAddress = parameters.get('walletAddress');
+  console.log("refAddress", refAddress)
+
+  // const { walletAddress } = useParams();
   console.log("refAddress", refAddress);
   const [levelsCount, setLevelsCount] = useState([]);
 
@@ -75,7 +83,7 @@ function Dashboard() {
   // console.log("wallet Address", walletAddress)
   useEffect(() => {
     if (Cookies.get("account"))
-      setReferralLink(`${window.location.origin}/${Cookies.get("account")}`);
+      setReferralLink(`${window.location.origin}/?walletAddress=${Cookies.get("account")}`);
   }, [Cookies.get("account")]);
 
 
@@ -108,25 +116,31 @@ function Dashboard() {
         <div className="main-panel">
           <div className="content-wrapper">
             <BigCards
-            account={account}
+              account={account}
               referralIncome={
                 income?.data?.referralIncome
                   ? ethers.utils
-                      .formatEther(income?.data?.referralIncome?.toString())
-                      .toString()
+                    .formatEther(income?.data?.referralIncome?.toString())
+                    .toString()
                   : 0
               }
               levelIncome={
                 income?.data?.levelIncome
                   ? ethers.utils
-                      .formatEther(income?.data?.levelIncome?.toString())
-                      .toString()
+                    .formatEther(income?.data?.levelIncome?.toString())
+                    .toString()
                   : 0
               }
               referrer={
                 income?.data?.referrer
                   ? income?.data?.referrer
                   : "0x000000000000000000000000000000000000000000"
+              }
+              usdtEarned={
+                income?.data?.usdtEarned
+                  ? ethers.utils
+                    .formatEther(income?.data?.usdtEarned)?.toString()
+                  : "0"
               }
             />
             <div className="row ">
@@ -166,7 +180,7 @@ function Dashboard() {
                       className="form-control referralAddress"
                       placeholder="Referrer Address"
                       value={walletAddress}
-                      disabled={walletAddress ? true: false}
+                      disabled={walletAddress ? true : false}
                     />
                   </div>
 
