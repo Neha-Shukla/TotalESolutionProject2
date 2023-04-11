@@ -161,7 +161,7 @@ export const withdrawLevelIncome = async (account) => {
     }
     catch (err) {
       console.log("errrr", err)
-      toast.error("Error while buying.." + err.code)
+      toast.error("Error while buying.." + err.reason)
       console.log("error", err.code)
       return false
     }
