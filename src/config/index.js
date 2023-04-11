@@ -2,6 +2,7 @@ import { ethers, providers } from "ethers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import Cookies from "js-cookie";
 import { supportedRpcs } from "./supportedRPCs";
+import { targetNetworkId } from "../helpers/constants";
 
 export const walletConnect = async () => {
   try {
@@ -32,7 +33,7 @@ export const walletConnect = async () => {
       expires: 7,
     });
     window.location.reload();
-    return _provider;
+    
   } catch (err) {
     console.log("err", err);
   }
@@ -71,7 +72,7 @@ export const getCurrentProvider = async () => {
   let _provider;
   if (wallet === "walletConnect") {
     _provider = new WalletConnectProvider({
-      rpc: "https://data-seed-prebsc-2-s2.binance.org:8545",
+      rpc: supportedRpcs[targetNetworkId],
     });
     //  Wrap with Web3Provider from ethers.js
     const web3Provider = new providers.Web3Provider(_provider);

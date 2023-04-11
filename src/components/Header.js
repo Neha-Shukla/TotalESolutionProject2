@@ -33,11 +33,11 @@ function Header() {
     setBalance(Cookies.get("balance"));
     const fetch = async () => {
       try {
-        
+
         const ptBal = await getPaymentTokenBal(Cookies.get("account"));
         setPaymentTokenBal(ptBal);
-       const tokenBal = await getTokenBalance(Cookies.get("account"));
-       setTokenBalance(tokenBal)
+        const tokenBal = await getTokenBalance(Cookies.get("account"));
+        setTokenBalance(tokenBal)
       } catch (error) {
         console.log("error", error)
       }
@@ -68,7 +68,7 @@ function Header() {
 
         <ul class="navbar-nav navbar-nav-right">
           {!account ? (
-            <li class="nav-item dropdown d-none d-lg-block">
+            <li class="nav-item dropdown d-lg-block">
               <button
                 class="nav-link btn btn-success create-new-button"
                 onClick={() => setShowModal(true)}
@@ -90,7 +90,7 @@ function Header() {
                 <ul class="dropdown-menu p-1">
                   <li className="my-1">
                     <div className="bal-icon">
-                    <img src="assets/images/tether.png" />
+                      <img src="assets/images/tether.png" />
                       <span>{String(paymentTokenBal).includes(".") ? Number(paymentTokenBal)?.toFixed(4) : Number(paymentTokenBal)}</span>
                     </div>
                   </li>
@@ -103,15 +103,15 @@ function Header() {
                   <li className="my-1">
                     <div className="bal-icon">
                       <img src="assets/images/logo.jpeg" />
-                      <span>{String(tokenBalance).includes(".") ? Number(tokenBalance)?.toFixed(4): Number(tokenBalance)}</span>
+                      <span>{String(tokenBalance).includes(".") ? Number(tokenBalance)?.toFixed(4) : Number(tokenBalance)}</span>
                     </div>
                   </li>
                   <li className="my-1 mt-2"><div className="account" onClick={() => logout()}>
-                Logout
-              </div></li>
+                    Logout
+                  </div></li>
                 </ul>
               </div>
-              
+
             </li>
           )}
         </ul>

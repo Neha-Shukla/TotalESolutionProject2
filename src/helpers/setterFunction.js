@@ -9,9 +9,9 @@ import BigNumber from "bignumber.js"
 import { getCurrentProvider } from "../config/index";
 import Loader from "../components/Loader";
 import { async } from "q";
+import { targetNetworkId } from "./constants";
+import Cookies from "js-cookie";
 
-
-const targetNetworkId = '0x61';
 export const exportInstance = async (SCAddress, ABI) => {
   let pro = await getCurrentProvider()
   console.log("pro", pro)
@@ -228,12 +228,10 @@ export const withdrawReferralIncome = async (account) => {
 
 export const checkNetwork = async () => {
   if (window.ethereum) {
-    const currentChainId = await window.ethereum.request({
-      method: 'eth_chainId',
-    });
+    const currentChainId = Cookies.get("chainId")
 
     // return true if network id is the same
-    console.log("current chain id is", currentChainId, process.env.ChainID);
+    console.log("current chain id is", currentChainId, currentChainId == targetNetworkId);
     if (currentChainId == targetNetworkId) return true;
     // return false is network id is different
     return false;
@@ -243,7 +241,7 @@ export const checkNetwork = async () => {
 export const switchNetwork = async () => {
   let provider = await getCurrentProvider()
 
-  await window.ethereum.request({
+  await provider.request({
     method: 'wallet_switchEthereumChain',
     params: [{ chainId: targetNetworkId }],
   });

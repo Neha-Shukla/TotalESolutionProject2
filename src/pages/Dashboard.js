@@ -20,6 +20,7 @@ import { ethers } from "ethers";
 import { toast } from "react-hot-toast";
 import { DEFAULT_REF } from "../helpers/constants";
 import Loader from "../components/Loader";
+import { getCurrentProvider, logout } from "../config";
 
 function Dashboard() {
   const [account, setAccount] = useState();
@@ -32,7 +33,7 @@ function Dashboard() {
   const [referralLink, setReferralLink] = useState(
     `${window.location.origin}/?walletAddress=`
   );
-  
+
 
   const { search } = useLocation();
 
@@ -77,6 +78,30 @@ function Dashboard() {
     }
     getContract();
   }, [reload, Cookies.get("account")]);
+
+  // useEffect(() => {
+  //   const fetch = async () => {
+  //     let _provider = await getCurrentProvider();
+  //     let wallet = Cookies.get("connectedWallet_label");
+  //     if (wallet === "walletConnect") {
+  //       // Listen for account changes
+  //       _provider.on("accountsChanged", (accounts) => {
+  //         logout();
+  //       });
+
+  //     } else {
+  //       console.log("_provider123=====>", _provider);
+  //       // Listen for account changes
+  //       window.ethereum.on("accountsChanged", (accounts) => {
+  //         logout();
+  //       });
+
+  //     }
+  //   };
+
+  //   if (account)
+  //     fetch();
+  // }, []);
 
   // console.log("wallet Address", walletAddress)
   useEffect(() => {
@@ -156,7 +181,7 @@ function Dashboard() {
                         placeholder="Referral Link"
                         value={referralLink}
                         disabled
-                      
+
                       />
                     </form>
                     <MdOutlineContentCopy
