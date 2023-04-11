@@ -4,7 +4,7 @@ import Sidebar from "../components/Sidebar";
 import BigCards from "../components/BigCards";
 import Table from "../components/Table";
 import Cookies from "js-cookie";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import Footer from "../components/Footer";
 import {
   checkNetwork,
@@ -30,10 +30,16 @@ function Dashboard() {
   const [functionCallLoad, setFunctionCallLoad] = useState(true);
   const { refAddress } = useParams();
   const [referralLink, setReferralLink] = useState(
-    `${window.location.origin}/`
+    `${window.location.origin}/?walletAddress=`
   );
-  const { walletAddress } = useParams();
-  console.log("refAddress", refAddress);
+  
+
+  const { search } = useLocation();
+
+  const parameters = new URLSearchParams(search);
+
+  const walletAddress = parameters.get('walletAddress');
+  console.log("walletAddress", walletAddress)
   const [levelsCount, setLevelsCount] = useState([]);
 
   useEffect(() => {
@@ -74,9 +80,9 @@ function Dashboard() {
 
   // console.log("wallet Address", walletAddress)
   useEffect(() => {
-    if (Cookies.get("account"))
-      setReferralLink(`${window.location.origin}/${Cookies.get("account")}`);
-  }, [Cookies.get("account")]);
+    if (Cookies.get("account") && income?.data?.tokensReceived)
+      setReferralLink(`${window.location.origin}/?walletAddress=${Cookies.get("account")}`);
+  }, [Cookies.get("account"), income]);
 
 
   const copyToClipboard = () => {
@@ -108,25 +114,31 @@ function Dashboard() {
         <div className="main-panel">
           <div className="content-wrapper">
             <BigCards
-            account={account}
+              account={account}
               referralIncome={
                 income?.data?.referralIncome
                   ? ethers.utils
-                      .formatEther(income?.data?.referralIncome?.toString())
-                      .toString()
+                    .formatEther(income?.data?.referralIncome?.toString())
+                    .toString()
                   : 0
               }
               levelIncome={
                 income?.data?.levelIncome
                   ? ethers.utils
-                      .formatEther(income?.data?.levelIncome?.toString())
-                      .toString()
+                    .formatEther(income?.data?.levelIncome?.toString())
+                    .toString()
                   : 0
               }
               referrer={
                 income?.data?.referrer
                   ? income?.data?.referrer
                   : "0x000000000000000000000000000000000000000000"
+              }
+              usdtEarned={
+                income?.data?.usdtEarned
+                  ? ethers.utils
+                    .formatEther(income?.data?.usdtEarned)?.toString()
+                  : "0"
               }
             />
             <div className="row ">
@@ -144,6 +156,7 @@ function Dashboard() {
                         placeholder="Referral Link"
                         value={referralLink}
                         disabled
+                      
                       />
                     </form>
                     <MdOutlineContentCopy
@@ -166,14 +179,14 @@ function Dashboard() {
                       className="form-control referralAddress"
                       placeholder="Referrer Address"
                       value={walletAddress}
-                      disabled={walletAddress ? true: false}
+                      disabled={true}
                     />
                   </div>
 
                   <div className="row btnn-group">
                     <div className=" col-sm-12 col-md-6 col-xs-12 col-lg-3">
                       <button
-                        disabled={isApprove || !account}
+                        disabled={!walletAddress || isApprove || !account}
                         className="nav-link btn btn-success create-new-button approve-btn"
                         onClick={async () => {
                           setLoading(true);
@@ -188,7 +201,7 @@ function Dashboard() {
                     <div className=" col-sm-12 col-md-6 col-xs-12 col-lg-3 buy-btn-text">
                       <button
                         className="nav-link btn btn-success create-new-button buy-btn"
-                        disabled={income?.data?.tokensReceived || !account || !isApprove}
+                        disabled={!walletAddress || income?.data?.tokensReceived || !account || !isApprove}
                         onClick={async () => {
                           setLoading(true);
                           await handleBuyToken(

@@ -1,7 +1,8 @@
 import { ethers } from "ethers";
-import { TokenBEP20, tokenSale,PaymentToken } from "../config/contracts";
+import { TokenBEP20, tokenSale, PaymentToken } from "../config/contracts";
 import tokenSaleABI from "../config/tokenSale.json"
 import paymentTokenABI from "../config/paymentToken.json"
+import tokenBEPABI from "../config/tokenBEP.json";
 
 import toast from "react-hot-toast";
 import BigNumber from "bignumber.js"
@@ -47,67 +48,67 @@ export const userIncome = async (address) => {
   return { data: data, tokenBalance: tokenBal, isWithdrawEnabled: isWithdrawEnabled }
 };
 
-export const checkAllowance=async(address)=>{
+export const checkAllowance = async (address) => {
   let network = checkNetwork();
   if (network == false) {
     await switchNetwork();
   }
-  let contract=await exportInstance(PaymentToken,paymentTokenABI)
-  let allowance=await contract.allowance(address,tokenSale);
+  let contract = await exportInstance(PaymentToken, paymentTokenABI)
+  let allowance = await contract.allowance(address, tokenSale);
 
 
-  console.log("payment token contract is---->",contract);
-  let all=parseFloat(allowance.toString());
+  console.log("payment token contract is---->", contract);
+  let all = parseFloat(allowance.toString());
   return all;
 }
 
-export const approve=async()=>{
+export const approve = async () => {
   // let network = checkNetwork();
   // if (network == false) {
   //   await switchNetwork();
   // }
-  try{
-    console.log("payment token is",PaymentToken)
-    let paymentContract=await exportInstance(PaymentToken,paymentTokenABI);
-    console.log("payment token contract is---->",paymentContract);
-    console.log("spender is---->",tokenSale)
+  try {
+    console.log("payment token is", PaymentToken)
+    let paymentContract = await exportInstance(PaymentToken, paymentTokenABI);
+    console.log("payment token contract is---->", paymentContract);
+    console.log("spender is---->", tokenSale)
     // ethers.utils.parseUnits('1000000', 'ether');
-  
-    let amount=ethers.utils.parseUnits('100000', 'ether');
-    console.log("ammount is---->",amount)
-    console.log("tokensale address is--->",tokenSale);
-  
-    let approveRes=await paymentContract.approve(tokenSale,amount);
-    console.log("approvale of payment token is---->",await approveRes.wait());
-  
-    
+
+    let amount = ethers.utils.parseUnits('100000', 'ether');
+    console.log("ammount is---->", amount)
+    console.log("tokensale address is--->", tokenSale);
+
+    let approveRes = await paymentContract.approve(tokenSale, amount);
+    console.log("approvale of payment token is---->", await approveRes.wait());
+
+
     return approveRes;
-  }catch(e){
-    console.log("error is",e)
+  } catch (e) {
+    console.log("error is", e)
     toast.error("Approval Fails");
     return;
   }
-  
+
 }
 
 
 export const handleBuyToken = async (account, ref) => {
-  console.log("refeeral is------->",ref);
+  console.log("refeeral is------->", ref);
   let network = checkNetwork();
   if (network == false) {
     await switchNetwork();
   }
   try {
 
-    let paymentContract=await exportInstance(PaymentToken,paymentTokenABI)
-  let balance=await paymentContract.balanceOf(account);
-  console.log("balance here is---------->",balance);
-  const balanceEther = balance.div(ethers.BigNumber.from(10).pow(18)).toNumber();
-console.log("balance is---->",balanceEther); // Output: 1
-if(balanceEther<20){
-  toast.error("Balance is less than 20$");
-  return;
-}
+    let paymentContract = await exportInstance(PaymentToken, paymentTokenABI)
+    let balance = await paymentContract.balanceOf(account);
+    console.log("balance here is---------->", balance);
+    const balanceEther = balance.div(ethers.BigNumber.from(10).pow(18)).toNumber();
+    console.log("balance is---->", balanceEther); // Output: 1
+    if (balanceEther < 20) {
+      toast.error("Balance is less than 20$");
+      return;
+    }
 
 
     let contract = await tokenSaleContract();
@@ -116,7 +117,7 @@ if(balanceEther<20){
     let es
     try {
       es = await contract.estimateGas.buyToken(
-        ref, { from: account, value:0 }
+        ref, { from: account, value: 0 }
       )
 
     }
@@ -130,9 +131,10 @@ if(balanceEther<20){
     let data = await contract.buyToken(ref, { from: account, value: 0, gasLimit: Math.ceil(parseFloat(priceLimit.toString())) });
     console.log("userIncome data is", data)
     data = await data.wait()
-    if (data.status){
+    if (data.status) {
       toast.success("Successfully purchased");
-      window.location.reload();}
+      window.location.reload();
+    }
     else
       toast.error("Error while buying..")
     return data;
@@ -168,8 +170,10 @@ export const withdrawLevelIncome = async (account) => {
 
     let data = await contract.withdrawLevelIncome({ from: account, gasLimit: Math.ceil(parseFloat(priceLimit.toString())) });
     data = await data.wait()
-    if (data.status)
+    if (data.status) {
       toast.success("Successfully purchased")
+      window.location.reload()
+    }
     else
       toast.error("Error while buying..")
     return data
@@ -203,8 +207,10 @@ export const withdrawReferralIncome = async (account) => {
 
     let data = await contract.withdrawReferralIncome({ from: account, gasLimit: Math.ceil(parseFloat(priceLimit.toString())) });
     data = await data.wait()
-    if (data.status)
+    if (data.status) {
       toast.success("Successfully purchased")
+      window.location.reload()
+    }
     else
       toast.error("Error while buying..")
     return data
@@ -234,7 +240,7 @@ export const checkNetwork = async () => {
 };
 
 export const switchNetwork = async () => {
-let provider = await getCurrentProvider()
+  let provider = await getCurrentProvider()
 
   await window.ethereum.request({
     method: 'wallet_switchEthereumChain',
@@ -262,9 +268,20 @@ export const getPaymentTokenBal = async (account) => {
   if (network == false) {
     await switchNetwork();
   }
-  let contract=await exportInstance(PaymentToken,paymentTokenABI)
-  console.log("payment token contract is---->",contract);
+  let contract = await exportInstance(PaymentToken, paymentTokenABI)
+  console.log("payment token contract is---->", contract);
   let bal = await contract.balanceOf(account);
-  
+
+  return bal.toString() / 10 ** 18
+}
+
+export const getTokenBalance = async (account) => {
+  let network = checkNetwork();
+  if (network == false) {
+    await switchNetwork();
+  }
+  let contract = await exportInstance(TokenBEP20, tokenBEPABI)
+  let bal = await contract.balanceOf(account);
+
   return bal.toString() / 10 ** 18
 }
