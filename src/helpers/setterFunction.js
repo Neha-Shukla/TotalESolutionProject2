@@ -219,7 +219,6 @@ export const withdrawReferralIncome = async (account) => {
 
 
 
-
 export const checkNetwork = async () => {
   if (window.ethereum) {
     const currentChainId = await window.ethereum.request({
