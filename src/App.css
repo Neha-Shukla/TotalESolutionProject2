@@ -31,10 +31,10 @@
 
 .bal-icon {
   height: 30px;
+  width: 30px;
   display: flex;
-  justify-content: end;
   align-items: center;
-  margin: 0 18px;
+  border-radius: 100%;
 }
 
 .bal-icon img {
@@ -42,13 +42,15 @@
   width: 100%;
   object-fit: contain;
   margin: 6px;
+  border-radius: inherit;
 }
 
 .account {
   background: #0000006b;
-  padding: 10px 20px;
+  padding: 7px;
   border-radius: 30px;
   cursor: pointer;
+  text-align: center;
   border: 1px solid #0000006b;
   transition: all 0.3s ease;
 }
@@ -89,7 +91,8 @@ tr {
   margin: 5px 0;
 }
 
-.referralLink:disabled,.referralAddress:disabled {
+.referralLink:disabled,
+.referralAddress:disabled {
   background-color: #313539 !important;
 }
 
@@ -131,13 +134,51 @@ tr {
   justify-content: center;
 }
 
-
-.buy-btn-text span{
+.buy-btn-text span {
   font-size: 16px;
   color: #6c757d;
   font-weight: 600;
 }
 
-input:disabled, button:disabled{
+input:disabled,
+button:disabled {
   cursor: not-allowed;
+}
+
+.sidebarLogo {
+  height: 65px !important;
+  width: 65px !important;
+}
+
+.sidebarLogo img {
+  height: 100% !important;
+  width: 100% !important;
+  object-fit: contain !important;
+}
+
+.navbar {
+  /* background: #191c24; */
+}
+
+.navbar-nav .dropdown-menu {
+  position: absolute;
+  min-width: 12rem;
+  padding: 10px !important;
+}
+
+.dropdown-toggle {
+  background-color: #095ab3 !important;
+  border-color: #095ab3 !important;
+}
+
+.navbar-nav .dropdown-menu {
+  position: absolute;
+  top: 30px;
+  left: -70px;
+}
+
+@media only screen and (max-width: 276px) {
+  .navbar-nav .dropdown-menu {
+    left: -5px;
+  }
 }

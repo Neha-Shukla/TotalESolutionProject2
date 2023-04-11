@@ -2,6 +2,7 @@ import { ethers } from "ethers";
 import { TokenBEP20, tokenSale, PaymentToken } from "../config/contracts";
 import tokenSaleABI from "../config/tokenSale.json"
 import paymentTokenABI from "../config/paymentToken.json"
+import tokenBEPABI from "../config/tokenBEP.json";
 
 import toast from "react-hot-toast";
 import BigNumber from "bignumber.js"
@@ -270,6 +271,17 @@ export const getPaymentTokenBal = async (account) => {
   }
   let contract = await exportInstance(PaymentToken, paymentTokenABI)
   console.log("payment token contract is---->", contract);
+  let bal = await contract.balanceOf(account);
+
+  return bal.toString() / 10 ** 18
+}
+
+export const getTokenBalance = async (account) => {
+  let network = checkNetwork();
+  if (network == false) {
+    await switchNetwork();
+  }
+  let contract = await exportInstance(TokenBEP20, tokenBEPABI)
   let bal = await contract.balanceOf(account);
 
   return bal.toString() / 10 ** 18
