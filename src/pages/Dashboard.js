@@ -79,29 +79,27 @@ function Dashboard() {
     getContract();
   }, [reload, Cookies.get("account")]);
 
-  // useEffect(() => {
-  //   const fetch = async () => {
-  //     let _provider = await getCurrentProvider();
-  //     let wallet = Cookies.get("connectedWallet_label");
-  //     if (wallet === "walletConnect") {
-  //       // Listen for account changes
-  //       _provider.on("accountsChanged", (accounts) => {
-  //         logout();
-  //       });
+  useEffect(() => {
+    const fetch = async () => {
+      let _provider = await getCurrentProvider();
+      let wallet = Cookies.get("connectedWallet_label");
+      if (wallet === "walletConnect") {
+        _provider.on("accountsChanged", (accounts) => {
+          logout();
+        });
 
-  //     } else {
-  //       console.log("_provider123=====>", _provider);
-  //       // Listen for account changes
-  //       window.ethereum.on("accountsChanged", (accounts) => {
-  //         logout();
-  //       });
+      } else {
+        console.log("_provider123=====>", _provider);
+        window.ethereum.on("accountsChanged", (accounts) => {
+          logout();
+        });
 
-  //     }
-  //   };
+      }
+    };
 
-  //   if (account)
-  //     fetch();
-  // }, []);
+    if (account)
+      fetch();
+  });
 
   // console.log("wallet Address", walletAddress)
   useEffect(() => {
@@ -111,7 +109,15 @@ function Dashboard() {
 
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(referralLink);
+    // navigator.clipboard.writeText(referralLink);
+   
+      var textarea = document.createElement("textarea");
+      textarea.value = referralLink;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textarea);
+    
     toast.success("Copied Successfully!");
   };
 
