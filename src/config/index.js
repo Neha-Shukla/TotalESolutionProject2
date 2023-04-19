@@ -84,29 +84,29 @@ export const getCurrentProvider = async () => {
   }
 };
 
-// export const getCurrentAccount = async () => {
-//   let wallet = Cookies.get("connectedWallet_label");
+export const getCurrentAccount = async () => {
+  let wallet = Cookies.get("connectedWallet_label");
 
-//   if (wallet === "walletConnect") {
-//     let _provider = await getCurrentProvider();
-//     const res = await _provider.listAccounts();
-//     let bal = await _provider.getBalance(res[0]);
-//     bal = ethers.utils.formatEther(bal);
-//     return [res[0], bal];
-//   } else if (wallet === "metamask") {
-//     try {
-//       let res = await window.ethereum.request({
-//         method: "eth_requestAccounts",
-//       });
-//       let _provider = await getCurrentProvider();
-//       let bal = await _provider.getBalance(res[0]);
-//       bal = ethers.utils.formatEther(bal);
-//       return [res[0], bal];
-//     } catch (err) {
-//       console.log("err", err);
-//     }
-//   }
-// };
+  if (wallet === "walletConnect") {
+    let _provider = await getCurrentProvider();
+    const res = await _provider.listAccounts();
+    let bal = await _provider.getBalance(res[0]);
+    bal = ethers.utils.formatEther(bal);
+    return [res[0], bal];
+  } else if (wallet === "metamask") {
+    try {
+      let res = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      let _provider = await getCurrentProvider();
+      let bal = await _provider.getBalance(res[0]);
+      bal = ethers.utils.formatEther(bal);
+      return [res[0], bal];
+    } catch (err) {
+      console.log("err", err);
+    }
+  }
+};
 
 export const logout = () => {
   Cookies.remove("connectedWallet_label");

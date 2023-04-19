@@ -52,6 +52,7 @@ export const checkAllowance = async (address) => {
   let network = checkNetwork();
   if (network == false) {
     await switchNetwork();
+    
   }
   let contract = await exportInstance(PaymentToken, paymentTokenABI)
   let allowance = await contract.allowance(address, tokenSale);

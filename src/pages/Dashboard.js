@@ -79,29 +79,29 @@ function Dashboard() {
     getContract();
   }, [reload, Cookies.get("account")]);
 
-  // useEffect(() => {
-  //   const fetch = async () => {
-  //     let _provider = await getCurrentProvider();
-  //     let wallet = Cookies.get("connectedWallet_label");
-  //     if (wallet === "walletConnect") {
-  //       // Listen for account changes
-  //       _provider.on("accountsChanged", (accounts) => {
-  //         logout();
-  //       });
+  useEffect(() => {
+    const fetch = async () => {
+      let _provider = await getCurrentProvider();
+      let wallet = Cookies.get("connectedWallet_label");
+      if (wallet === "walletConnect") {
+        // Listen for account changes
+        _provider.on("accountsChanged", (accounts) => {
+          logout();
+        });
 
-  //     } else {
-  //       console.log("_provider123=====>", _provider);
-  //       // Listen for account changes
-  //       window.ethereum.on("accountsChanged", (accounts) => {
-  //         logout();
-  //       });
+      } else {
+        console.log("_provider123=====>", _provider);
+        // Listen for account changes
+        window.ethereum.on("accountsChanged", (accounts) => {
+          logout();
+        });
 
-  //     }
-  //   };
+      }
+    };
 
-  //   if (account)
-  //     fetch();
-  // }, []);
+    if (account)
+      fetch();
+  }, []);
 
   // console.log("wallet Address", walletAddress)
   useEffect(() => {
