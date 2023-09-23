@@ -31,18 +31,18 @@ function Header() {
 
     setAccount(Cookies.get("account"));
     setBalance(Cookies.get("balance"));
-    const fetch = async () => {
-      try {
+    // const fetch = async () => {
+    //   try {
 
-        const ptBal = await getPaymentTokenBal(Cookies.get("account"));
-        setPaymentTokenBal(ptBal);
-        const tokenBal = await getTokenBalance(Cookies.get("account"));
-        setTokenBalance(tokenBal)
-      } catch (error) {
-        console.log("error", error)
-      }
-    };
-    if (Cookies.get("account")) fetch();
+    //     const ptBal = await getPaymentTokenBal(Cookies.get("account"));
+    //     setPaymentTokenBal(ptBal);
+    //     const tokenBal = await getTokenBalance(Cookies.get("account"));
+    //     setTokenBalance(tokenBal)
+    //   } catch (error) {
+    //     console.log("error", error)
+    //   }
+    // };
+    // if (Cookies.get("account")) fetch();
   }, [Cookies.get("account"), Cookies.get("balance")]);
 
   return (

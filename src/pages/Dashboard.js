@@ -34,13 +34,13 @@ function Dashboard() {
     `${window.location.origin}/?walletAddress=`
   );
 
-
   const { search } = useLocation();
 
-  const parameters = new URLSearchParams(search);
+  const searchParams = new URLSearchParams(window.location.search);
 
-  const walletAddress = parameters.get('walletAddress');
-  console.log("walletAddress", walletAddress)
+  // Get the value of the 'ref' query parameter (walletAddress)
+  const walletAddress = searchParams.get("ref");
+  console.log("walletAddress", walletAddress);
   const [levelsCount, setLevelsCount] = useState([]);
 
   useEffect(() => {
@@ -60,11 +60,11 @@ function Dashboard() {
 
             //   // return;
           }
-          let allowance = await checkAllowance(acc);
-          console.log("allowance", allowance);
-          if (allowance != 0) {
-            setIsApprove(true);
-          }
+          // let allowance = await checkAllowance(acc);
+          // console.log("allowance", allowance);
+          // if (allowance != 0) {
+          //   setIsApprove(true);
+          // }
           let _income = await userIncome(acc);
           console.log("user income is", _income);
           setIncome(_income);
@@ -87,37 +87,35 @@ function Dashboard() {
         _provider.on("accountsChanged", (accounts) => {
           logout();
         });
-
       } else {
         console.log("_provider123=====>", _provider);
         window.ethereum.on("accountsChanged", (accounts) => {
           logout();
         });
-
       }
     };
 
-    if (account)
-      fetch();
+    if (account) fetch();
   });
 
   // console.log("wallet Address", walletAddress)
   useEffect(() => {
     if (Cookies.get("account") && income?.data?.tokensReceived)
-      setReferralLink(`${window.location.origin}/?walletAddress=${Cookies.get("account")}`);
+      setReferralLink(
+        `${window.location.origin}/?walletAddress=${Cookies.get("account")}`
+      );
   }, [Cookies.get("account"), income]);
-
 
   const copyToClipboard = () => {
     // navigator.clipboard.writeText(referralLink);
-   
-      var textarea = document.createElement("textarea");
-      textarea.value = referralLink;
-      document.body.appendChild(textarea);
-      textarea.select();
-      document.execCommand("copy");
-      document.body.removeChild(textarea);
-    
+
+    var textarea = document.createElement("textarea");
+    textarea.value = referralLink;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand("copy");
+    document.body.removeChild(textarea);
+
     toast.success("Copied Successfully!");
   };
 
@@ -149,15 +147,15 @@ function Dashboard() {
               referralIncome={
                 income?.data?.referralIncome
                   ? ethers.utils
-                    .formatEther(income?.data?.referralIncome?.toString())
-                    .toString()
+                      .formatEther(income?.data?.referralIncome?.toString())
+                      .toString()
                   : 0
               }
               levelIncome={
                 income?.data?.levelIncome
                   ? ethers.utils
-                    .formatEther(income?.data?.levelIncome?.toString())
-                    .toString()
+                      .formatEther(income?.data?.levelIncome?.toString())
+                      .toString()
                   : 0
               }
               referrer={
@@ -168,7 +166,8 @@ function Dashboard() {
               usdtEarned={
                 income?.data?.usdtEarned
                   ? ethers.utils
-                    .formatEther(income?.data?.usdtEarned)?.toString()
+                      .formatEther(income?.data?.usdtEarned)
+                      ?.toString()
                   : "0"
               }
             />
@@ -187,7 +186,6 @@ function Dashboard() {
                         placeholder="Referral Link"
                         value={referralLink}
                         disabled
-
                       />
                     </form>
                     <MdOutlineContentCopy
@@ -215,24 +213,14 @@ function Dashboard() {
                   </div>
 
                   <div className="row btnn-group">
-                    <div className=" col-sm-12 col-md-6 col-xs-12 col-lg-3">
-                      <button
-                        disabled={!walletAddress || isApprove || !account}
-                        className="nav-link btn btn-success create-new-button approve-btn"
-                        onClick={async () => {
-                          setLoading(true);
-                          let res = await approve();
-                          setLoading(false);
-                          window.location.reload();
-                        }}
-                      >
-                        Approve
-                      </button>
-                    </div>
                     <div className=" col-sm-12 col-md-6 col-xs-12 col-lg-3 buy-btn-text">
                       <button
                         className="nav-link btn btn-success create-new-button buy-btn"
-                        disabled={!walletAddress || income?.data?.tokensReceived || !account || !isApprove}
+                        disabled={
+                          !walletAddress ||
+                          income?.data?.tokensReceived ||
+                          !account
+                        }
                         onClick={async () => {
                           setLoading(true);
                           await handleBuyToken(
